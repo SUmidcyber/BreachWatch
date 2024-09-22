@@ -1,0 +1,13 @@
+# Base image olarak Ubuntu kullanıyoruz
+FROM ubuntu:latest
+
+# Gerekli paketleri yüklüyoruz
+RUN apt-get update && apt-get install -y \
+    snort \
+    && apt-get clean
+
+# Snort konfigürasyon dosyasını kopyalıyoruz
+COPY snort.conf /etc/snort/snort.conf
+
+# Snort'u başlatıyoruz
+CMD ["sh", "-c", "./network && snort -i $interface_name -c /etc/snort/snort.conf -l /var/log/snort -A console"]
